@@ -10,14 +10,18 @@ def form_clientes(id):
         ssf.cliente = ""
         ssf.tel = ""
         ssf.proyecto = ""
-        ssf.fecha = date.today()
+        ssf.fecha = ""
+        #ssf.fecha = date.today()
+
+    item = ClientesModel.getClienteById(ssf.id) if ssf.id else ClientesModel()
+    print(item.cliente)
 
     with st.container(border=True):
         c1,c2,c3 = st.columns(3)
-        cliente = c1.text_input("Cliente", autocomplete="off", key="cliente")
-        tel = c2.text_input("Teléfono", autocomplete="off", key="tel")
-        fecha = c3.date_input("Fecha", key="fecha")
-        proyecto = st.text_area("Proyecto", key="proyecto")
+        cliente = c1.text_input("Cliente:", autocomplete="off", key="cliente", value=item.cliente)
+        tel = c2.text_input("Teléfono:", autocomplete="off", key="tel", value=item.tel)
+        fecha = c3.date_input("Fecha:", key="fecha", value=item.fecha)
+        proyecto = st.text_area("Proyecto:", key="proyecto", value=item.proyecto) 
         
         def guardar():
             if cliente:
@@ -28,7 +32,7 @@ def form_clientes(id):
                 ssf.tel = ""
                 ssf.proyecto = ""
                 ssf.fecha = date.today()
-                st.toast("Cliente guardado")
+                st.toast("Cliente guardado", icon="✅")
             else:
                 st.warning("Escribe el nombre del cliente")
 

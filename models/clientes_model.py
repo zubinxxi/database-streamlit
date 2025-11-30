@@ -14,6 +14,11 @@ class ClientesModel:
         return [ClientesModel(**cliente) for cliente in run_query("SELECT * FROM clientes")]
     
     @staticmethod
+    def getClienteById(id):
+        row = run_query("SELECT * FROM clientes WHERE id = %s", (id,))
+        return ClientesModel(**row[0]) if row else None
+    
+    @staticmethod
     def create(cliente, tel, proyecto, fecha):
         run_actions("INSERT INTO clientes (cliente, tel, proyecto, fecha) VALUES (%s, %s, %s, %s)", (cliente, tel, proyecto, fecha))
     

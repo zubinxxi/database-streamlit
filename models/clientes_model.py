@@ -8,10 +8,14 @@ class ClientesModel:
         self.tel = tel
         self.proyecto = proyecto
         self.fecha = fecha  
+
+    @staticmethod
+    def get_all_dataframe():
+        return [dict(row) for row in run_query("SELECT * FROM clientes")]
     
     @staticmethod
     def get_all():
-        return [ClientesModel(**cliente) for cliente in run_query("SELECT * FROM clientes")]
+        return [ClientesModel(**cliente) for cliente in run_query("SELECT * FROM clientes ORDER BY -id")]
     
     @staticmethod
     def getClienteById(id):
@@ -24,8 +28,8 @@ class ClientesModel:
     
     @staticmethod
     def update(id, cliente, tel, proyecto, fecha):
-        pass
+        run_actions("UPDATE clientes SET cliente = %s, tel = %s, proyecto = %s, fecha = %s WHERE id = %s", (cliente, tel, proyecto, fecha, id))
     
     @staticmethod
     def delete(id):
-        pass
+        run_actions("DELETE FROM clientes WHERE id = %s", (id,))

@@ -12,7 +12,7 @@ def clientes():
     clientes = ClientesModel.get_all_dataframe()
     ss.df_clientes = pd.DataFrame(clientes)
     ss.df_clientes["Eliminar"] = False
-    data = st.data_editor(ss.df_clientes, hide_index=True, use_container_width=True)
+    data = st.data_editor(ss.df_clientes, hide_index=True, width="stretch")
 
     rc1, rc2, _ = st.columns([1,1,12])
     with rc1:

@@ -11,14 +11,15 @@ def alta_clientes():
     if "id" not in ss:
         ss.id = ""
 
-    def getId(id):
-        ss.id = id
-        
+    #def getId(id):
+    #    ss.id = id
+    # Obtener el ID de edición (será None si no se ha pulsado el botón)
+    edit_id = ss.get('current_edit_id', None)    
 
     _, col, _=st.columns([1,3,1])
     with col:
         st.title("Alta de Cliente")
-        form_clientes(ss.id)
+        form_clientes(edit_id)
 
     
 
@@ -43,7 +44,11 @@ def alta_clientes():
                 cc3.write(cliente.tel)
                 cc4.write(cliente.proyecto)
                 cc5.write(cliente.fecha)
-                cc6.button("Editar / Eliminar", key=f"edit_{cliente.id}", icon=":material/edit:", on_click=getId, args=(cliente.id,))
+                #cc6.button("Editar / Eliminar", key=f"edit_{cliente.id}", icon=":material/edit:", on_click=getId, args=(cliente.id,))
+                with cc6:
+                    if st.button("Editar / Eliminar", key=f"edit_{cliente.id}", icon=":material/edit:", help="Editar o eliminar registro" ):
+                        st.session_state.current_edit_id = cliente.id
+                        st.rerun()
                     
     else:
         st.caption("No hay clientes registrados en la base de datos")
